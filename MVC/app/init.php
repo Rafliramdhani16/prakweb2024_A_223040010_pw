@@ -11,3 +11,5 @@ require_once 'core/Database.php';
 
 // inisialisasi config
 require_once 'config/config.php';
+// Flasher
+require_once 'core/Flasher.php';
