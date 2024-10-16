@@ -1,28 +1,31 @@
-
-    <div class="container mx-auto mt-5 p-4">
-        <h2 class="text-2xl font-bold mb-4">Daftar Mahasiswa</h2>
-        <div class="overflow-x-auto">
-            <table class="min-w-full bg-white border border-gray-300">
-                <thead>
-                    <tr class="bg-gray-100">
-                        <th class="py-2 px-4 border-b">No</th>
-                        <th class="py-2 px-4 border-b">Nama</th>
-                        <th class="py-2 px-4 border-b">NRP</th>
-                        <th class="py-2 px-4 border-b">Email</th>
-                        <th class="py-2 px-4 border-b">Jurusan</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($data['mhs'] as $mhs): ?>
-                    <tr>
-                        <td class="py-2 px-4 border-b text-center"><?= $mhs['id'] ?></td>
-                        <td class="py-2 px-4 border-b"><?= $mhs['nama'] ?></td>
-                        <td class="py-2 px-4 border-b"><?= $mhs['nrp'] ?></td>
-                        <td class="py-2 px-4 border-b"><?= $mhs['email'] ?></td>
-                        <td class="py-2 px-4 border-b"><?= $mhs['jurusan'] ?></td>
-                    </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
+<div class="container mx-auto mt-5 p-4">
+    <h2 class="text-3xl font-bold mb-6 text-neutral-800">Daftar Mahasiswa</h2>
+    <div class="overflow-x-auto bg-white shadow-lg rounded-lg">
+        <table class="min-w-full">
+            <thead>
+                <tr class="bg-neutral-100 text-neutral-800 text-lg leading-normal">
+                    <th class="py-4 px-6 text-left font-semibold">ID</th>
+                    <th class="py-4 px-6 text-left font-semibold">Nama</th>
+                    <th class="py-4 px-6 text-center font-semibold">Aksi</th>
+                </tr>
+            </thead>
+            <tbody class="text-neutral-800 text-base">
+                <?php foreach ($data['mhs'] as $mhs): ?>
+                <tr class="border-b border-neutral-200 hover:bg-neutral-50">
+                    <td class="py-4 px-6 text-left whitespace-nowrap">
+                        <span class="font-medium"><?= $mhs['id'] ?></span>
+                    </td>
+                    <td class="py-4 px-6 text-left">
+                        <span class="font-medium"><?= $mhs['nama'] ?></span>
+                    </td>
+                    <td class="py-4 px-6 text-center">
+                        <a href="<?= BASEURL; ?>/mahasiswa/detail/<?= $mhs['id']; ?>" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-md transition duration-300 ease-in-out text-base">
+                            Detail
+                        </a>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
+</div>
