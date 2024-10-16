@@ -15,6 +15,7 @@
                     <li class="list-group-item flex justify-between items-center p-3 border-b border-gray-200 hover:bg-gray-100 transition duration-200">
                         <span class="text-lg"><?= $mhs['nama']; ?></span>
                         <a href="<?= BASEURL; ?>/mahasiswa/detail/<?= $mhs['id']; ?>" class="badge bg-blue-600 text-white rounded-full px-3 py-1 hover:bg-blue-700 transition duration-200">Detail</a>
+                        <a href="<?= BASEURL; ?>/mahasiswa/hapus/<?= $mhs['id']; ?>" class="badge bg-red-600 text-white rounded-full px-3 py-1 hover:bg-red-700 transition duration-200" onclick="return confirm('Yakin dek');">Hapus</a>
                     </li>
                 <?php endforeach; ?>
             </ul>
@@ -23,7 +24,7 @@
 </div>
 
 <!-- Modal -->
-<div id="formModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center">
+<div id="formModal" class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
     <div class="bg-white rounded-lg shadow-lg w-11/12 md:w-1/3">
         <div class="modal-header flex justify-between items-center p-4 border-b border-gray-300">
             <h1 class="text-lg font-semibold text-gray-800" id="judulModal">Tambah Data Mahasiswa</h1>
