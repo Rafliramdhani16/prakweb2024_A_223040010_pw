@@ -1,39 +1,53 @@
-$(function () {
-  $(".tombolTambahData").on("click", function () {
-    $("#judulModalLabel").html("Tambah Data Mahasiswa");
-    $(".modal-footer button[type=submit]").html("Tambah Data");
-    $("#nama").val("");
-    $("#nim").val("");
-    $("#jurusan").val("");
-    $("#email").val("");
-    $(".modal-body form").attr(
-      "action",
-      "http://localhost/mvc/public/mahasiswa/tambah"
-    );
+document.addEventListener("DOMContentLoaded", function () {
+  const modal = document.getElementById("formModal");
+  const openModalBtn = document.querySelector(".tombolTambahData");
+  const closeModalBtn = document.getElementById("closeModal");
+  const form = modal.querySelector("form");
+  const judulModalLabel = document.getElementById("judulModalLabel");
+  const submitBtn = form.querySelector('button[type="submit"]');
+
+  function openModal() {
+    modal.classList.remove("hidden");
+  }
+
+  function closeModal() {
+    modal.classList.add("hidden");
+  }
+
+  openModalBtn.addEventListener("click", function () {
+    judulModalLabel.textContent = "Tambah Data Mahasiswa";
+    submitBtn.textContent = "Tambah Data";
+    form.reset();
+    form.action = `${BASEURL}/mahasiswa/tambah`;
+    openModal();
   });
-  $(".tampilModalUbah").on("click", function () {
-    $("#judulModalLabel").html("Ubah Data Mahasiswa");
-    $(".modal-footer button[type=submit]").html("Ubah Data");
-    $(".modal-body form").attr(
-      "action",
-      "http://localhost/mvc/public/mahasiswa/ubah"
-    );
 
-    const id = $(this).data("id");
+  closeModalBtn.addEventListener("click", closeModal);
 
-    // karena objek pake {}
-    $.ajax({
-      url: "http://localhost/mvc/public/mahasiswa/getubah",
-      data: { id: id },
-      method: "post",
-      dataType: "json",
-      success: function (data) {
-        $("#nama").val(data.nama);
-        $("#nim").val(data.nim);
-        $("#jurusan").val(data.jurusan);
-        $("#email").val(data.email);
-        $("#id").val(data.id);
-      },
+  document.querySelectorAll(".tampilModalUbah").forEach((btn) => {
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      const id = this.dataset.id;
+      judulModalLabel.textContent = "Ubah Data Mahasiswa";
+      submitBtn.textContent = "Ubah Data";
+      form.action = `${BASEURL}/mahasiswa/ubah`;
+
+      fetch(`${BASEURL}/mahasiswa/getubah`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `id=${id}`,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          document.getElementById("id").value = data.id;
+          document.getElementById("nama").value = data.nama;
+          document.getElementById("nrp").value = data.nrp;
+          document.getElementById("email").value = data.email;
+          document.getElementById("jurusan").value = data.jurusan;
+          openModal();
+        });
     });
   });
 });
