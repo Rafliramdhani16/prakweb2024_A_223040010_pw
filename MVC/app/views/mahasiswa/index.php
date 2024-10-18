@@ -1,4 +1,4 @@
-<div class="container mx-auto mt-5">
+<div class="container mt-3">
     <div class="row">
         <div class="col-lg-6">
             <?php Flasher::flash(); ?>
@@ -6,16 +6,16 @@
     </div>
     <div class="row">
         <div class="col-lg-6">
-            <button type="button" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 transition duration-200" data-modal-toggle="formModal">
+            <button type="button" class="btn btn-primary mb-3 tombolTambahData" data-bs-toggle="modal" data-bs-target="#formModal">
                 Tambah Data Mahasiswa
             </button>
-            <h3 class="text-2xl font-bold mb-2">Daftar Mahasiswa</h3>
+            <h3>Daftar Mahasiswa</h3>
             <ul class="list-group">
                 <?php foreach ($data['mhs'] as $mhs) : ?>
-                    <li class="list-group-item flex justify-between items-center p-3 border-b border-gray-200 hover:bg-gray-100 transition duration-200">
-                        <span class="text-lg"><?= $mhs['nama']; ?></span>
-                        <a href="<?= BASEURL; ?>/mahasiswa/detail/<?= $mhs['id']; ?>" class="badge bg-blue-600 text-white rounded-full px-3 py-1 hover:bg-blue-700 transition duration-200">Detail</a>
-                        <a href="<?= BASEURL; ?>/mahasiswa/hapus/<?= $mhs['id']; ?>" class="badge bg-red-600 text-white rounded-full px-3 py-1 hover:bg-red-700 transition duration-200" onclick="return confirm('Yakin dek');">Hapus</a>
+                    <li class="list-group-item "><?= $mhs['nama']; ?>
+                        <a href="<?= BASEURL; ?>/mahasiswa/hapus/<?= $mhs['id']; ?>" class="badge rounded-pill text-bg-danger text-decoration-none float-end me-1" onclick="return confirm('Yakin?')">Hapus</a>
+                        <a href="<?= BASEURL; ?>/mahasiswa/ubah/<?= $mhs['id']; ?>" class="badge rounded-pill text-bg-warning text-decoration-none float-end me-1 tampilModalUbah" data-bs-toggle="modal" data-bs-target="#formModal" data-id="<?= $mhs['id']; ?>">Edit</a>
+                        <a href="<?= BASEURL; ?>/mahasiswa/detail/<?= $mhs['id']; ?>" class="badge rounded-pill text-bg-primary text-decoration-none float-end me-1">Detail</a>
                     </li>
                 <?php endforeach; ?>
             </ul>
@@ -23,53 +23,48 @@
     </div>
 </div>
 
+
 <!-- Modal -->
-<div id="formModal" class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
-    <div class="bg-white rounded-lg shadow-lg w-11/12 md:w-1/3">
-        <div class="modal-header flex justify-between items-center p-4 border-b border-gray-300">
-            <h1 class="text-lg font-semibold text-gray-800" id="judulModal">Tambah Data Mahasiswa</h1>
-            <button type="button" class="text-gray-500 hover:text-gray-700" onclick="document.getElementById('formModal').classList.add('hidden');">
-                &times;
-            </button>
-        </div>
-        <div class="modal-body p-6">
-            <form action="<?= BASEURL; ?>/mahasiswa/tambah" method="POST">
-                <div class="mb-4">
-                    <label for="nama" class="block text-sm font-medium text-gray-700">Nama</label>
-                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500" id="nama" name="nama" required>
-                </div>
+<div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="judulModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="judulModalLabel">Tambah Data Mahasiswa</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="<?= BASEURL; ?>/mahasiswa/tambah" method="POST">
+                    <input type="hidden" name="id" id="id">
+                    <div class="mb-3">
+                        <label for="nama" class="form-label">Nama</label>
+                        <input type="text" class="form-control" id="nama" name="nama">
+                    </div>
 
-                <div class="mb-4">
-                    <label for="nrp" class="block text-sm font-medium text-gray-700">NRP</label>
-                    <input type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500" id="nrp" name="nrp" required>
-                </div>
+                    <div class="mb-3">
+                        <label for="nim" class="form-label">NIM</label>
+                        <input type="number" class="form-control" id="nim" name="nim">
+                    </div>
 
-                <div class="mb-4">
-                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                    <input type="email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500" id="email" name="email" required>
-                </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email">
+                    </div>
 
-                <div class="mb-4">
-                    <label for="jurusan" class="block text-sm font-medium text-gray-700">Jurusan</label>
-                    <select class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500" aria-label="jurusan" name="jurusan" required>
+                    <label for="jurusan">Jurusan</label>
+                    <select class="form-select" aria-label="jurusan" name="jurusan">
+
                         <option value="Teknik Informatika">Teknik Informatika</option>
                         <option value="Teknik Mesin">Teknik Mesin</option>
                         <option value="Teknik Pangan">Teknik Pangan</option>
                         <option value="Teknik Industri">Teknik Industri</option>
+
                     </select>
-                </div>
-        </div>
-        <div class="modal-footer p-4 border-t border-gray-300">
-            <button type="button" class="bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-gray-400 transition duration-200" onclick="document.getElementById('formModal').classList.add('hidden');">Close</button>
-            <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200">Tambah Data</button>
-            </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Tambah Data</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
-
-<script>
-    // Show modal
-    document.querySelector('[data-modal-toggle="formModal"]').addEventListener('click', function() {
-        document.getElementById('formModal').classList.remove('hidden');
-    });
-</script>
